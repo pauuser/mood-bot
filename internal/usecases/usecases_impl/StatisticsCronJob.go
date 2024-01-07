@@ -33,7 +33,7 @@ func NewStatisticsCronJob(userRepository repository.UserRepository,
 func (s *statisticsCronJob) RunSendStatisticsJob() {
 	cr := cron.New()
 
-	cr.AddFunc("@every 12s", func() {
+	cr.AddFunc("0 0 12 28 1/1 ? *", func() {
 		s.sendStatistics()
 	})
 
