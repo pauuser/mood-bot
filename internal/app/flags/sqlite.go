@@ -21,7 +21,7 @@ func (p *SqliteFlags) InitDB() (*sql.DB, error) {
 	}
 
 	init := `
-	CREATE TABLE questions IF NOT EXISTS (
+	CREATE TABLE IF NOT EXISTS questions (
     	id INTEGER PRIMARY KEY AUTOINCREMENT,
     	question_text TEXT,
     	answer TEXT,

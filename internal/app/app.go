@@ -11,9 +11,9 @@ import (
 )
 
 type Config struct {
-	Postgres flags.SqliteFlags `mapstructure:"sqlite"`
-	Logger   flags.LoggerFlags `mapstructure:"logger"`
-	Bot      flags.BotFlags    `mapstructure:"bot"`
+	Sqlite flags.SqliteFlags `mapstructure:"sqlite"`
+	Logger flags.LoggerFlags `mapstructure:"logger"`
+	Bot    flags.BotFlags    `mapstructure:"bot"`
 }
 
 type App struct {
@@ -32,7 +32,7 @@ type appUseCasesFields struct {
 }
 
 func (a *App) initRepos() (*appReposFields, error) {
-	db, err := a.Config.Postgres.InitDB()
+	db, err := a.Config.Sqlite.InitDB()
 	if err != nil {
 		return nil, err
 	}
@@ -109,7 +109,7 @@ func (a *App) Run() {
 		return
 	}
 
-	u := NewUpdate(0)
+	u := tgbotapi.NewUpdate(0)
 	u.Timeout = 60
 
 	updates := a.bot.GetUpdatesChan(u)
@@ -118,11 +118,12 @@ func (a *App) Run() {
 			continue
 		}
 
-		log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
-
-		msg := NewMessage(update.Message.Chat.ID, update.Message.Text)
+		msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
 		msg.ReplyToMessageID = update.Message.MessageID
 
-		bot.Send(msg)
+		_, err := a.bot.Send(msg)
+		if err != nil {
+			a.logger.Error("Could not send message")
+		}
 	}
 }

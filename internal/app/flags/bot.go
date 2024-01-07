@@ -5,7 +5,7 @@ import (
 )
 
 type BotFlags struct {
-	Token string `mapstructure:"time_key"`
+	Token string `mapstructure:"token"`
 }
 
 func (b *BotFlags) NewBot() (*tgbotapi.BotAPI, error) {
