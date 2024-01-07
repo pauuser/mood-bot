@@ -1,11 +1,11 @@
-package impl
+package repository_impl
 
 import (
-	"context"
 	"database/sql"
 	"go.uber.org/zap"
 	"pauuser/mood-bot/internal/models"
 	"pauuser/mood-bot/internal/repository"
+	"time"
 )
 
 type questionRepositoryImpl struct {
@@ -20,30 +20,25 @@ func NewQuestionRepoSqliteImpl(db *sql.DB, logger *zap.Logger) repository.Questi
 	}
 }
 
-func (q questionRepositoryImpl) Create(ctx context.Context, question *models.Question) (uint64, error) {
+func (q questionRepositoryImpl) Create(question *models.Question) error {
 	createQuery := `INSERT INTO questions (question_text, answer, answered_at, from_chat_id)
-					VALUES ($1, $2, $3, $4) RETURNING ID`
+					VALUES ($1, $2, $3, $4)`
 
-	row := q.db.QueryRow(createQuery, question.QuestionText, question.Answer, question.Date, question.FromChatId)
-	var id uint64
-
-	err := row.Scan(&id)
+	_, err := q.db.Exec(createQuery, question.QuestionText, question.Answer, question.Date, question.FromChatId)
 	if err != nil {
 		q.logger.Error("insert into questions error", zap.Error(err))
-		return 0, err
 	}
 
-	return id, nil
-
+	return err
 }
 
-func (q questionRepositoryImpl) GetAll(ctx context.Context) ([]*models.Question, error) {
+func (q questionRepositoryImpl) GetAll() ([]*models.Question, error) {
 	getQuery := `SELECT * FROM questions`
 
 	var questions = make([]*models.Question, 0)
 	result, err := q.db.Query(getQuery)
 	if err != nil {
-		q.logger.Error("Could not")
+		q.logger.Error("Could not query questions")
 	}
 	defer func(result *sql.Rows) {
 		err := result.Close()
@@ -54,16 +49,17 @@ func (q questionRepositoryImpl) GetAll(ctx context.Context) ([]*models.Question,
 
 	for result.Next() {
 		question := new(models.Question)
+		var date string
 		if err := result.Scan(&question.ID,
 			&question.QuestionText,
 			&question.Answer,
-			&question.Date,
+			&date,
 			&question.FromChatId); err != nil {
-			panic(err)
+			q.logger.Error("Could not parse answers!")
 		}
+		question.Date, err = time.Parse("2006-01-02 15:04:05.000000000-07:00", date)
 		questions = append(questions, question)
 	}
 
 	return questions, nil
-
 }

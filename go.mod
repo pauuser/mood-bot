@@ -7,6 +7,7 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.6
 	github.com/spf13/viper v1.18.2
 	go.uber.org/zap v1.26.0
+	gopkg.in/robfig/cron.v2 v2.0.0-20150107220207-be2e0b0deed5
 )
 
 require (

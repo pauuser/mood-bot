@@ -7,28 +7,36 @@ import (
 	"log"
 	"pauuser/mood-bot/internal/app/flags"
 	"pauuser/mood-bot/internal/repository"
-	"pauuser/mood-bot/internal/repository/impl"
+	"pauuser/mood-bot/internal/repository/repository_impl"
+	"pauuser/mood-bot/internal/usecases"
+	"pauuser/mood-bot/internal/usecases/usecases_impl"
 )
 
 type Config struct {
-	Sqlite flags.SqliteFlags `mapstructure:"sqlite"`
-	Logger flags.LoggerFlags `mapstructure:"logger"`
-	Bot    flags.BotFlags    `mapstructure:"bot"`
+	Sqlite    flags.SqliteFlags   `mapstructure:"sqlite"`
+	Logger    flags.LoggerFlags   `mapstructure:"logger"`
+	Bot       flags.BotFlags      `mapstructure:"bot"`
+	Questions map[string][]string `mapstructure:"questions"`
 }
 
 type App struct {
 	Config   Config
-	repos    *appReposFields
-	useCases *appUseCasesFields
+	Repos    *appReposFields
+	UseCases *appUseCasesFields
 	bot      *tgbotapi.BotAPI
-	logger   *zap.Logger
+	Logger   *zap.Logger
 }
 
 type appReposFields struct {
-	questionRepo repository.QuestionRepository
+	QuestionRepository repository.QuestionRepository
+	UserRepository     repository.UserRepository
 }
 
 type appUseCasesFields struct {
+	BotService             usecases.BotService
+	QuestionsBackgroundJob usecases.QuestionsCronJob
+	MessageProcessor       usecases.MessageProcessor
+	StatisticsCronJob      usecases.StatisticsCronJob
 }
 
 func (a *App) initRepos() (*appReposFields, error) {
@@ -39,13 +47,19 @@ func (a *App) initRepos() (*appReposFields, error) {
 
 	f := &appReposFields{}
 
-	f.questionRepo = impl.NewQuestionRepoSqliteImpl(db, a.logger)
+	f.QuestionRepository = repository_impl.NewQuestionRepoSqliteImpl(db, a.Logger)
+	f.UserRepository = repository_impl.NewUserRepoSqliteImpl(db, a.Logger)
 
 	return f, nil
 }
 
 func (a *App) initUseCases(repos *appReposFields) *appUseCasesFields {
 	u := &appUseCasesFields{}
+
+	u.BotService = usecases_impl.NewBotServiceUseCaseImpl(a.bot, a.Logger)
+	u.QuestionsBackgroundJob = usecases_impl.NewQuestionCronJob(a.Config.Questions, repos.UserRepository, u.BotService, a.Logger)
+	u.MessageProcessor = usecases_impl.NewMessageProcessorImpl(a.Logger, u.BotService, repos.UserRepository, repos.QuestionRepository, a.Config.Questions)
+	u.StatisticsCronJob = usecases_impl.NewStatisticsCronJob(repos.UserRepository, repos.QuestionRepository, u.BotService, a.Logger)
 
 	return u
 }
@@ -70,6 +84,13 @@ func (a *App) ParseConfig(pathToConfig string, configFileName string) error {
 }
 
 func (a *App) Init(logger *zap.Logger) error {
+	bot, err := a.Config.Bot.NewBot()
+	if err != nil {
+		logger.Fatal("Cannot init telegram bot")
+		return err
+	}
+	a.bot = bot
+
 	repos, err := a.initRepos()
 
 	if err != nil {
@@ -77,15 +98,8 @@ func (a *App) Init(logger *zap.Logger) error {
 		return err
 	}
 
-	a.repos = repos
-	a.useCases = a.initUseCases(a.repos)
-
-	bot, err := a.Config.Bot.NewBot()
-	if err != nil {
-		logger.Fatal("Cannot init telegram bot")
-		return err
-	}
-	a.bot = bot
+	a.Repos = repos
+	a.UseCases = a.initUseCases(repos)
 
 	return nil
 }
@@ -96,9 +110,9 @@ func (a *App) Run() {
 		log.Fatal(err)
 		return
 	}
-	a.logger = logger
+	a.Logger = logger
 	defer func() {
-		if err := a.logger.Sync(); err != nil {
+		if err := a.Logger.Sync(); err != nil {
 			log.Fatal("error logger sync")
 		}
 	}()
@@ -112,18 +126,11 @@ func (a *App) Run() {
 	u := tgbotapi.NewUpdate(0)
 	u.Timeout = 60
 
+	go a.UseCases.QuestionsBackgroundJob.RunQuestionsCronJob()
+	go a.UseCases.StatisticsCronJob.RunSendStatisticsJob()
+
 	updates := a.bot.GetUpdatesChan(u)
 	for update := range updates {
-		if update.Message == nil {
-			continue
-		}
-
-		msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
-		msg.ReplyToMessageID = update.Message.MessageID
-
-		_, err := a.bot.Send(msg)
-		if err != nil {
-			a.logger.Error("Could not send message")
-		}
+		a.UseCases.MessageProcessor.Process(update)
 	}
 }
