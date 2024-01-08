@@ -44,7 +44,7 @@ func (q *questionCronJob) sendQuestions() {
 func (q *questionCronJob) RunQuestionsCronJob() {
 	s := cron.New()
 
-	s.AddFunc("0 0 22 1/1 * ? *", func() {
+	s.AddFunc("0 0 22 * * ?", func() {
 		q.sendQuestions()
 	})
 
