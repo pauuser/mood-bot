@@ -36,25 +36,34 @@ func createQuestionsTable(db *sql.DB) error {
 	createQuestionsTable := `
 	CREATE TABLE IF NOT EXISTS questions (
     	id INTEGER PRIMARY KEY AUTOINCREMENT,
-    	question_text TEXT,
-    	answer TEXT,
-    	answered_at TEXT,
-    	from_chat_id INTEGER
+    	question_text TEXT NOT NULL,
+    	answer TEXT NOT NULL,
+    	answered_at DATETIME NOT NULL,
+    	from_chat_id INTEGER NOT NULL,
+    	created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 	)`
 	_, err := db.Exec(createQuestionsTable)
+	if err != nil {
+		return err
+	}
 
-	return err
+	return nil
 }
 
 func createUsersTable(db *sql.DB) error {
 	createUsersTable := `
 	CREATE TABLE IF NOT EXISTS users (
     	id INTEGER PRIMARY KEY AUTOINCREMENT,
-    	chat_id INTEGER,
+    	chat_id INTEGER UNIQUE NOT NULL,
 	    name TEXT,
-	    username TEXT
+	    username TEXT,
+    	created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    	updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 	)`
 	_, err := db.Exec(createUsersTable)
+	if err != nil {
+		return err
+	}
 
-	return err
+	return nil
 }

@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  mood-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mood-bot
+    environment:
+      - TOKEN=${TELEGRAM_BOT_TOKEN}
+    volumes:
+      - ./config:/app/config:ro
+      - ./logs:/app/logs
+      - ./data:/app/data
+    command: sh -c "mkdir -p /app/data && chown -R appuser:appuser /app/data && ./main"
+    ports:
+      - "8080:8080"
+    networks:
+      - moodbot-network
+
+volumes:
+  moodbot_data:
+    driver: local
+
+networks:
+  moodbot-network:
+    driver: bridge 

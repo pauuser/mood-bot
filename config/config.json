@@ -1,6 +1,6 @@
 {
   "sqlite": {
-    "path": "./moodbot.db"
+    "path": "/app/data/moodbot.db"
   },
   "logger": {
     "time_key": "timestamp",
