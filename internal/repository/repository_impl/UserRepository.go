@@ -2,9 +2,10 @@ package repository_impl
 
 import (
 	"database/sql"
-	"go.uber.org/zap"
 	"pauuser/mood-bot/internal/models"
 	"pauuser/mood-bot/internal/repository"
+
+	"go.uber.org/zap"
 )
 
 type userRepositoryImpl struct {
@@ -32,7 +33,7 @@ func (u userRepositoryImpl) Create(user *models.User) error {
 }
 
 func (u userRepositoryImpl) GetAll() ([]*models.User, error) {
-	getQuery := `SELECT * FROM users`
+	getQuery := `SELECT id, chat_id, name, username FROM users`
 
 	var users = make([]*models.User, 0)
 	result, err := u.db.Query(getQuery)
@@ -58,7 +59,7 @@ func (u userRepositoryImpl) GetAll() ([]*models.User, error) {
 }
 
 func (u userRepositoryImpl) GetUser(chatId int64) (*models.User, error) {
-	getQuery := `SELECT * FROM users WHERE chat_id = $1`
+	getQuery := `SELECT id, chat_id, name, username FROM users WHERE chat_id = $1`
 	user := new(models.User)
 
 	result := u.db.QueryRow(getQuery, chatId)

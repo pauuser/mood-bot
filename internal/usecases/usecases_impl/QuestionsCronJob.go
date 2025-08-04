@@ -1,10 +1,11 @@
 package usecases_impl
 
 import (
-	"go.uber.org/zap"
-	"gopkg.in/robfig/cron.v2"
 	"pauuser/mood-bot/internal/repository"
 	"pauuser/mood-bot/internal/usecases"
+
+	"go.uber.org/zap"
+	"gopkg.in/robfig/cron.v2"
 )
 
 type questionCronJob struct {
