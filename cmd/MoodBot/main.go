@@ -10,7 +10,7 @@ import (
 func main() {
 	application := app.App{}
 	pathToConfig := flag.String("path-to-config", "./config", "path to dir with config")
-	configFileName := flag.String("config-file-name", "config", "config file name")
+	configFileName := flag.String("config-file-name", "config.json", "config file name")
 	flag.Parse()
 	fmt.Println("path to config =", *pathToConfig, "config file name =", *configFileName)
 
