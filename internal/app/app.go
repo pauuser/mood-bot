@@ -1,15 +1,16 @@
 package app
 
 import (
-	"github.com/go-telegram-bot-api/telegram-bot-api/v5"
-	"github.com/spf13/viper"
-	"go.uber.org/zap"
 	"log"
 	"pauuser/mood-bot/internal/app/flags"
 	"pauuser/mood-bot/internal/repository"
 	"pauuser/mood-bot/internal/repository/repository_impl"
 	"pauuser/mood-bot/internal/usecases"
 	"pauuser/mood-bot/internal/usecases/usecases_impl"
+
+	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	"github.com/spf13/viper"
+	"go.uber.org/zap"
 )
 
 type Config struct {
@@ -17,6 +18,7 @@ type Config struct {
 	Logger    flags.LoggerFlags   `mapstructure:"logger"`
 	Bot       flags.BotFlags      `mapstructure:"bot"`
 	Questions map[string][]string `mapstructure:"questions"`
+	Schedule  string              `mapstructure:"schedule"`
 }
 
 type App struct {
@@ -57,7 +59,7 @@ func (a *App) initUseCases(repos *appReposFields) *appUseCasesFields {
 	u := &appUseCasesFields{}
 
 	u.BotService = usecases_impl.NewBotServiceUseCaseImpl(a.bot, a.Logger)
-	u.QuestionsBackgroundJob = usecases_impl.NewQuestionCronJob(a.Config.Questions, repos.UserRepository, u.BotService, a.Logger)
+	u.QuestionsBackgroundJob = usecases_impl.NewQuestionCronJob(a.Config.Questions, a.Config.Schedule, repos.UserRepository, u.BotService, a.Logger)
 	u.MessageProcessor = usecases_impl.NewMessageProcessorImpl(a.Logger, u.BotService, repos.UserRepository, repos.QuestionRepository, a.Config.Questions)
 	u.StatisticsCronJob = usecases_impl.NewStatisticsCronJob(repos.UserRepository, repos.QuestionRepository, u.BotService, a.Logger)
 

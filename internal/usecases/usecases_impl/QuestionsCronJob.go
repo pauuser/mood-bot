@@ -13,9 +13,11 @@ type questionCronJob struct {
 	userRepository repository.UserRepository
 	botService     usecases.BotService
 	logger         *zap.Logger
+	schedule       string
 }
 
 func NewQuestionCronJob(questions map[string][]string,
+	schedule string,
 	userRepository repository.UserRepository,
 	botService usecases.BotService,
 	logger *zap.Logger) usecases.QuestionsCronJob {
@@ -24,6 +26,7 @@ func NewQuestionCronJob(questions map[string][]string,
 		userRepository: userRepository,
 		botService:     botService,
 		logger:         logger,
+		schedule:       schedule,
 	}
 }
 
@@ -45,7 +48,7 @@ func (q *questionCronJob) sendQuestions() {
 func (q *questionCronJob) RunQuestionsCronJob() {
 	s := cron.New()
 
-	s.AddFunc("0 0 22 * * ?", func() {
+	s.AddFunc(q.schedule, func() {
 		q.sendQuestions()
 	})
 
