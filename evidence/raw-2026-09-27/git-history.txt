@@ -1,0 +1,18 @@
+$ git log --format="%h %ad author=%an committer=%cn %s" --date=short
+81ed500 2025-08-31 author=Pavel Ivanov committer=Pavel Ivanov Add questions schedule to config
+91400ae 2025-08-04 author=Pavel Ivanov committer=Pavel Ivanov Fix config name in main.py
+ec955b3 2025-08-04 author=Pavel Ivanov committer=Pavel Ivanov Fix user queries
+1cb3cdc 2025-08-01 author=Pavel Ivanov committer=Pavel Ivanov Add database-auto creation; Add docker files
+ef26c87 2024-01-08 author=Pavel Ivanov committer=Pavel Ivanov FIX: typos in readme
+3ec1cf8 2024-01-08 author=Pavel Ivanov committer=Pavel Ivanov UPDATE: readme
+b6e7d16 2024-01-08 author=Pavel Ivanov committer=Pavel Ivanov FIX: cron strings
+0015977 2024-01-07 author=Pavel Ivanov committer=Pavel Ivanov ADD: config and true jobs configuration
+596780d 2024-01-07 author=Pavel Ivanov committer=Pavel Ivanov FINISH: added routine to send statistics
+3ee320f 2024-01-07 author=Pavel Ivanov committer=Pavel Ivanov ADD: started working
+82ed6f3 2024-01-06 author=Pavel Ivanov committer=Pavel Ivanov ADD: initial repository code + started doing bot
+92b6e04 2024-01-06 author=Pavel Ivanov committer=GitHub Initial commit
+
+$ GitHub API: pulls?state=all -> количество
+0
+$ GitHub API: actions/runs -> total_count
+0

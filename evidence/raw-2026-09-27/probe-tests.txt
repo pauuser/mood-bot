@@ -1,0 +1,8 @@
+=== RUN   TestAnswerIsNotReadBack
+    probe_test.go:53: прочитано: chat=0 question="" answer=""
+--- PASS: TestAnswerIsNotReadBack (0.01s)
+=== RUN   TestCallbackStoresAnyData
+    probe_test.go:82: в БД: [["Q?" "99999"] ["Вопроса нет в конфиге" "<b>x</b>"] ["Q?" "3"] ["Q?" "3"]]
+--- PASS: TestCallbackStoresAnyData (0.01s)
+PASS
+ok  	pauuser/mood-bot/internal/usecases/usecases_impl	0.021s

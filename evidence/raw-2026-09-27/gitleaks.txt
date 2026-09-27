@@ -1,0 +1,14 @@
+Unable to find image 'zricethezav/gitleaks:latest' locally
+Digest: sha256:c00b6bd0aeb3071cbcb79009cb16a60dd9e0a7c60e2be9ab65d25e6bc8abbb7f
+Status: Downloaded newer image for zricethezav/gitleaks:latest
+
+    ○
+    │╲
+    │ ○
+    ○ ░
+    ░    gitleaks
+
+[90m1:25PM[0m [32mINF[0m [1m12 commits scanned.[0m
+[90m1:25PM[0m [32mINF[0m [1mscanned ~34975 bytes (34.97 KB) in 42.4ms[0m
+[90m1:25PM[0m [32mINF[0m [1mno leaks found[0m
+exit 0
