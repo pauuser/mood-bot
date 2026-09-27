@@ -1,0 +1,563 @@
+Unable to find image 'golang:1.21' locally
+go version go1.21.13 linux/arm64
+vet-exit 0
+Scanning your code and 205 packages across 21 dependent modules for known vulnerabilities...
+
+Fetching vulnerabilities from the database...
+
+Checking the code against the vulnerabilities...
+
+=== Symbol Results ===
+
+Vulnerability #1: GO-2026-6218
+    Avoid quadratic complexity in resolvePath in net/url
+  More info: https://pkg.go.dev/vuln/GO-2026-6218
+  Standard library
+    Found in: net/url@go1.21.13
+    Fixed in: net/url@go1.25.13
+    Example traces found:
+      #1: internal/usecases/usecases_impl/BotService.go:16:25: usecases_impl.botServiceUseCaseImpl.Request calls telegram.BotAPI.Request, which eventually calls url.URL.Parse
+
+Vulnerability #2: GO-2026-6090
+    Limit handshake messages we are willing to accept post-handshake in
+    crypto/tls
+  More info: https://pkg.go.dev/vuln/GO-2026-6090
+  Standard library
+    Found in: crypto/tls@go1.21.13
+    Fixed in: crypto/tls@go1.25.13
+    Example traces found:
+      #1: internal/usecases/usecases_impl/BotService.go:16:25: usecases_impl.botServiceUseCaseImpl.Request calls telegram.BotAPI.Request, which eventually calls tls.Conn.HandshakeContext
+      #2: internal/app/app.go:75:23: app.App.ParseConfig calls viper.Viper.ReadInConfig, which eventually calls tls.Conn.Read
+      #3: internal/app/flags/logger.go:54:2: flags.LoggerFlags.NewZapLogger calls zapcore.BufferedWriteSyncer.Stop, which eventually calls tls.Conn.Write
+      #4: internal/usecases/usecases_impl/BotService.go:16:25: usecases_impl.botServiceUseCaseImpl.Request calls telegram.BotAPI.Request, which eventually calls tls.Dialer.DialContext
+
+Vulnerability #3: GO-2026-5972
+    Enforce maximum recursion depth in encoding/asn1
+  More info: https://pkg.go.dev/vuln/GO-2026-5972
+  Standard library
+    Found in: encoding/asn1@go1.21.13
+    Fixed in: encoding/asn1@go1.25.13
+    Example traces found:
+      #1: internal/app/flags/bot.go:12:37: flags.BotFlags.NewBot calls os.Getenv, which eventually calls asn1.Unmarshal
+
+Vulnerability #4: GO-2026-5856
+    Invoking Encrypted Client Hello privacy leak in crypto/tls
+  More info: https://pkg.go.dev/vuln/GO-2026-5856
+  Standard library
+    Found in: crypto/tls@go1.21.13
+    Fixed in: crypto/tls@go1.25.12
+    Example traces found:
+      #1: internal/usecases/usecases_impl/BotService.go:16:25: usecases_impl.botServiceUseCaseImpl.Request calls telegram.BotAPI.Request, which eventually calls tls.Conn.HandshakeContext
+      #2: internal/app/app.go:75:23: app.App.ParseConfig calls viper.Viper.ReadInConfig, which eventually calls tls.Conn.Read
+      #3: internal/app/flags/logger.go:54:2: flags.LoggerFlags.NewZapLogger calls zapcore.BufferedWriteSyncer.Stop, which eventually calls tls.Conn.Write
+      #4: internal/usecases/usecases_impl/BotService.go:16:25: usecases_impl.botServiceUseCaseImpl.Request calls telegram.BotAPI.Request, which eventually calls tls.Dialer.DialContext
+
+Vulnerability #5: GO-2026-5039
+    Arbitrary inputs are included in errors without any escaping in
+    net/textproto
+  More info: https://pkg.go.dev/vuln/GO-2026-5039
+  Standard library
+    Found in: net/textproto@go1.21.13
+    Fixed in: net/textproto@go1.25.11
+    Example traces found:
+      #1: internal/app/app.go:75:23: app.App.ParseConfig calls viper.Viper.ReadInConfig, which eventually calls textproto.Reader.ReadMIMEHeader
+
+Vulnerability #6: GO-2026-5037
+    Inefficient candidate hostname parsing in crypto/x509
+  More info: https://pkg.go.dev/vuln/GO-2026-5037
+  Standard library
+    Found in: crypto/x509@go1.21.13
+    Fixed in: crypto/x509@go1.25.11
+    Example traces found:
+      #1: internal/app/app.go:75:23: app.App.ParseConfig calls viper.Viper.ReadInConfig, which eventually calls x509.Certificate.Verify
+      #2: internal/app/app.go:75:23: app.App.ParseConfig calls viper.Viper.ReadInConfig, which eventually calls x509.Certificate.VerifyHostname
+      #3: internal/app/app.go:75:23: app.App.ParseConfig calls viper.Viper.ReadInConfig, which eventually calls x509.HostnameError.Error
+
+Vulnerability #7: GO-2026-5026
+    Invoking failure to reject ASCII-only Punycode-encoded labels in
+    golang.org/x/net/idna
+  More info: https://pkg.go.dev/vuln/GO-2026-5026
+  Standard library
+    Found in: net/http@go1.21.13
+    Fixed in: net/http@go1.25.13
+    Example traces found:
+      #1: internal/usecases/usecases_impl/BotService.go:16:25: usecases_impl.botServiceUseCaseImpl.Request calls telegram.BotAPI.Request, which eventually calls http.Client.Do
+
+Vulnerability #8: GO-2026-4971
+    Panic in Dial and LookupPort when handling NUL byte on Windows in net
+  More info: https://pkg.go.dev/vuln/GO-2026-4971
+  Standard library
+    Found in: net@go1.21.13
+    Fixed in: net@go1.25.10
+    Example traces found:
+      #1: internal/usecases/usecases_impl/BotService.go:16:25: usecases_impl.botServiceUseCaseImpl.Request calls telegram.BotAPI.Request, which eventually calls net.Dialer.DialContext
+
+Vulnerability #9: GO-2026-4947
+    Unexpected work during chain building in crypto/x509
+  More info: https://pkg.go.dev/vuln/GO-2026-4947
+  Standard library
+    Found in: crypto/x509@go1.21.13
+    Fixed in: crypto/x509@go1.25.9
+    Example traces found:
+      #1: internal/app/app.go:75:23: app.App.ParseConfig calls viper.Viper.ReadInConfig, which eventually calls x509.Certificate.Verify
+
+Vulnerability #10: GO-2026-4946
+    Inefficient policy validation in crypto/x509
+  More info: https://pkg.go.dev/vuln/GO-2026-4946
+  Standard library
+    Found in: crypto/x509@go1.21.13
+    Fixed in: crypto/x509@go1.25.9
+    Example traces found:
+      #1: internal/app/app.go:75:23: app.App.ParseConfig calls viper.Viper.ReadInConfig, which eventually calls x509.Certificate.Verify
+
+Vulnerability #11: GO-2026-4918
+    Infinite loop in HTTP/2 transport when given bad SETTINGS_MAX_FRAME_SIZE in
+    net/http/internal/http2 in golang.org/x/net
+  More info: https://pkg.go.dev/vuln/GO-2026-4918
+  Standard library
+    Found in: net/http@go1.21.13
+    Fixed in: net/http@go1.25.10
+    Example traces found:
+      #1: internal/usecases/usecases_impl/BotService.go:16:25: usecases_impl.botServiceUseCaseImpl.Request calls telegram.BotAPI.Request, which eventually calls http.Client.Do
+
+Vulnerability #12: GO-2026-4870
+    Unauthenticated TLS 1.3 KeyUpdate record can cause persistent connection
+    retention and DoS in crypto/tls
+  More info: https://pkg.go.dev/vuln/GO-2026-4870
+  Standard library
+    Found in: crypto/tls@go1.21.13
+    Fixed in: crypto/tls@go1.25.9
+    Example traces found:
+      #1: internal/usecases/usecases_impl/BotService.go:16:25: usecases_impl.botServiceUseCaseImpl.Request calls telegram.BotAPI.Request, which eventually calls tls.Conn.HandshakeContext
+      #2: internal/app/app.go:75:23: app.App.ParseConfig calls viper.Viper.ReadInConfig, which eventually calls tls.Conn.Read
+      #3: internal/app/flags/logger.go:54:2: flags.LoggerFlags.NewZapLogger calls zapcore.BufferedWriteSyncer.Stop, which eventually calls tls.Conn.Write
+      #4: internal/usecases/usecases_impl/BotService.go:16:25: usecases_impl.botServiceUseCaseImpl.Request calls telegram.BotAPI.Request, which eventually calls tls.Dialer.DialContext
+
+Vulnerability #13: GO-2026-4602
+    FileInfo can escape from a Root in os
+  More info: https://pkg.go.dev/vuln/GO-2026-4602
+  Standard library
+    Found in: os@go1.21.13
+    Fixed in: os@go1.25.8
+    Example traces found:
+      #1: internal/app/flags/bot.go:12:37: flags.BotFlags.NewBot calls os.Getenv, which eventually calls os.ReadDir
+
+Vulnerability #14: GO-2026-4601
+    Incorrect parsing of IPv6 host literals in net/url
+  More info: https://pkg.go.dev/vuln/GO-2026-4601
+  Standard library
+    Found in: net/url@go1.21.13
+    Fixed in: net/url@go1.25.8
+    Example traces found:
+      #1: internal/usecases/usecases_impl/BotService.go:16:25: usecases_impl.botServiceUseCaseImpl.Request calls telegram.BotAPI.Request, which eventually calls url.Parse
+      #2: internal/usecases/usecases_impl/BotService.go:16:25: usecases_impl.botServiceUseCaseImpl.Request calls telegram.BotAPI.Request, which eventually calls url.URL.Parse
+
+Vulnerability #15: GO-2026-4341
+    Memory exhaustion in query parameter parsing in net/url
+  More info: https://pkg.go.dev/vuln/GO-2026-4341
+  Standard library
+    Found in: net/url@go1.21.13
+    Fixed in: net/url@go1.24.12
+    Example traces found:
+      #1: internal/app/flags/sqlite.go:13:21: flags.SqliteFlags.InitDB calls sql.Open, which eventually calls url.ParseQuery
+
+Vulnerability #16: GO-2026-4340
+    Handshake messages may be processed at the incorrect encryption level in
+    crypto/tls
+  More info: https://pkg.go.dev/vuln/GO-2026-4340
+  Standard library
+    Found in: crypto/tls@go1.21.13
+    Fixed in: crypto/tls@go1.24.12
+    Example traces found:
+      #1: internal/usecases/usecases_impl/BotService.go:16:25: usecases_impl.botServiceUseCaseImpl.Request calls telegram.BotAPI.Request, which eventually calls tls.Conn.HandshakeContext
+      #2: internal/app/app.go:75:23: app.App.ParseConfig calls viper.Viper.ReadInConfig, which eventually calls tls.Conn.Read
+      #3: internal/app/flags/logger.go:54:2: flags.LoggerFlags.NewZapLogger calls zapcore.BufferedWriteSyncer.Stop, which eventually calls tls.Conn.Write
+      #4: internal/usecases/usecases_impl/BotService.go:16:25: usecases_impl.botServiceUseCaseImpl.Request calls telegram.BotAPI.Request, which eventually calls tls.Dialer.DialContext
+
+Vulnerability #17: GO-2026-4337
+    Unexpected session resumption in crypto/tls
+  More info: https://pkg.go.dev/vuln/GO-2026-4337
+  Standard library
+    Found in: crypto/tls@go1.21.13
+    Fixed in: crypto/tls@go1.24.13
+    Example traces found:
+      #1: internal/usecases/usecases_impl/BotService.go:16:25: usecases_impl.botServiceUseCaseImpl.Request calls telegram.BotAPI.Request, which eventually calls tls.Conn.HandshakeContext
+      #2: internal/app/app.go:75:23: app.App.ParseConfig calls viper.Viper.ReadInConfig, which eventually calls tls.Conn.Read
+      #3: internal/app/flags/logger.go:54:2: flags.LoggerFlags.NewZapLogger calls zapcore.BufferedWriteSyncer.Stop, which eventually calls tls.Conn.Write
+      #4: internal/usecases/usecases_impl/BotService.go:16:25: usecases_impl.botServiceUseCaseImpl.Request calls telegram.BotAPI.Request, which eventually calls tls.Dialer.DialContext
+
+Vulnerability #18: GO-2025-4175
+    Improper application of excluded DNS name constraints when verifying
+    wildcard names in crypto/x509
+  More info: https://pkg.go.dev/vuln/GO-2025-4175
+  Standard library
+    Found in: crypto/x509@go1.21.13
+    Fixed in: crypto/x509@go1.24.11
+    Example traces found:
+      #1: internal/app/app.go:75:23: app.App.ParseConfig calls viper.Viper.ReadInConfig, which eventually calls x509.Certificate.Verify
+
+Vulnerability #19: GO-2025-4155
+    Excessive resource consumption when printing error string for host
+    certificate validation in crypto/x509
+  More info: https://pkg.go.dev/vuln/GO-2025-4155
+  Standard library
+    Found in: crypto/x509@go1.21.13
+    Fixed in: crypto/x509@go1.24.11
+    Example traces found:
+      #1: internal/app/app.go:75:23: app.App.ParseConfig calls viper.Viper.ReadInConfig, which eventually calls x509.Certificate.Verify
+      #2: internal/app/app.go:75:23: app.App.ParseConfig calls viper.Viper.ReadInConfig, which eventually calls x509.Certificate.VerifyHostname
+
+Vulnerability #20: GO-2025-4013
+    Panic when validating certificates with DSA public keys in crypto/x509
+  More info: https://pkg.go.dev/vuln/GO-2025-4013
+  Standard library
+    Found in: crypto/x509@go1.21.13
+    Fixed in: crypto/x509@go1.24.8
+    Example traces found:
+      #1: internal/app/app.go:75:23: app.App.ParseConfig calls viper.Viper.ReadInConfig, which eventually calls x509.Certificate.Verify
+
+Vulnerability #21: GO-2025-4012
+    Lack of limit when parsing cookies can cause memory exhaustion in net/http
+  More info: https://pkg.go.dev/vuln/GO-2025-4012
+  Standard library
+    Found in: net/http@go1.21.13
+    Fixed in: net/http@go1.24.8
+    Example traces found:
+      #1: internal/usecases/usecases_impl/BotService.go:16:25: usecases_impl.botServiceUseCaseImpl.Request calls telegram.BotAPI.Request, which eventually calls http.Client.Do
+
+Vulnerability #22: GO-2025-4011
+    Parsing DER payload can cause memory exhaustion in encoding/asn1
+  More info: https://pkg.go.dev/vuln/GO-2025-4011
+  Standard library
+    Found in: encoding/asn1@go1.21.13
+    Fixed in: encoding/asn1@go1.24.8
+    Example traces found:
+      #1: internal/app/flags/bot.go:12:37: flags.BotFlags.NewBot calls os.Getenv, which eventually calls asn1.Unmarshal
+
+Vulnerability #23: GO-2025-4010
+    Insufficient validation of bracketed IPv6 hostnames in net/url
+  More info: https://pkg.go.dev/vuln/GO-2025-4010
+  Standard library
+    Found in: net/url@go1.21.13
+    Fixed in: net/url@go1.24.8
+    Example traces found:
+      #1: internal/usecases/usecases_impl/BotService.go:16:25: usecases_impl.botServiceUseCaseImpl.Request calls telegram.BotAPI.Request, which eventually calls url.Parse
+      #2: internal/usecases/usecases_impl/BotService.go:16:25: usecases_impl.botServiceUseCaseImpl.Request calls telegram.BotAPI.Request, which eventually calls url.URL.Parse
+
+Vulnerability #24: GO-2025-4009
+    Quadratic complexity when parsing some invalid inputs in encoding/pem
+  More info: https://pkg.go.dev/vuln/GO-2025-4009
+  Standard library
+    Found in: encoding/pem@go1.21.13
+    Fixed in: encoding/pem@go1.24.8
+    Example traces found:
+      #1: internal/app/flags/bot.go:12:37: flags.BotFlags.NewBot calls os.Getenv, which eventually calls pem.Decode
+
+Vulnerability #25: GO-2025-4008
+    ALPN negotiation error contains attacker controlled information in
+    crypto/tls
+  More info: https://pkg.go.dev/vuln/GO-2025-4008
+  Standard library
+    Found in: crypto/tls@go1.21.13
+    Fixed in: crypto/tls@go1.24.8
+    Example traces found:
+      #1: internal/usecases/usecases_impl/BotService.go:16:25: usecases_impl.botServiceUseCaseImpl.Request calls telegram.BotAPI.Request, which eventually calls tls.Conn.HandshakeContext
+      #2: internal/app/app.go:75:23: app.App.ParseConfig calls viper.Viper.ReadInConfig, which eventually calls tls.Conn.Read
+      #3: internal/app/flags/logger.go:54:2: flags.LoggerFlags.NewZapLogger calls zapcore.BufferedWriteSyncer.Stop, which eventually calls tls.Conn.Write
+      #4: internal/usecases/usecases_impl/BotService.go:16:25: usecases_impl.botServiceUseCaseImpl.Request calls telegram.BotAPI.Request, which eventually calls tls.Dialer.DialContext
+
+Vulnerability #26: GO-2025-4007
+    Quadratic complexity when checking name constraints in crypto/x509
+  More info: https://pkg.go.dev/vuln/GO-2025-4007
+  Standard library
+    Found in: crypto/x509@go1.21.13
+    Fixed in: crypto/x509@go1.24.9
+    Example traces found:
+      #1: internal/app/flags/bot.go:12:37: flags.BotFlags.NewBot calls os.Getenv, which eventually calls x509.CertPool.AppendCertsFromPEM
+      #2: internal/app/app.go:75:23: app.App.ParseConfig calls viper.Viper.ReadInConfig, which eventually calls x509.Certificate.Verify
+      #3: internal/app/flags/bot.go:12:37: flags.BotFlags.NewBot calls os.Getenv, which eventually calls x509.ParseCertificate
+
+Vulnerability #27: GO-2025-3849
+    Incorrect results returned from Rows.Scan in database/sql
+  More info: https://pkg.go.dev/vuln/GO-2025-3849
+  Standard library
+    Found in: database/sql@go1.21.13
+    Fixed in: database/sql@go1.23.12
+    Example traces found:
+      #1: internal/repository/repository_impl/UserRepository.go:66:23: repository_impl.userRepositoryImpl.GetUser calls sql.Row.Scan
+      #2: internal/repository/repository_impl/QuestionRepository.go:53:24: repository_impl.questionRepositoryImpl.GetAll calls sql.Rows.Scan
+
+Vulnerability #28: GO-2025-3751
+    Sensitive headers not cleared on cross-origin redirect in net/http
+  More info: https://pkg.go.dev/vuln/GO-2025-3751
+  Standard library
+    Found in: net/http@go1.21.13
+    Fixed in: net/http@go1.23.10
+    Example traces found:
+      #1: internal/usecases/usecases_impl/BotService.go:16:25: usecases_impl.botServiceUseCaseImpl.Request calls telegram.BotAPI.Request, which eventually calls http.Client.Do
+
+Vulnerability #29: GO-2025-3750
+    Inconsistent handling of O_CREATE|O_EXCL on Unix and Windows in os in
+    syscall
+  More info: https://pkg.go.dev/vuln/GO-2025-3750
+  Standard library
+    Found in: os@go1.21.13
+    Fixed in: os@go1.23.10
+    Platforms: windows
+    Example traces found:
+      #1: internal/app/app.go:73:17: app.App.ParseConfig calls viper.Viper.AddConfigPath, which eventually calls os.Getwd
+      #2: internal/app/flags/bot.go:5:2: flags.init calls os.init, which calls os.NewFile
+      #3: internal/app/app.go:75:23: app.App.ParseConfig calls viper.Viper.ReadInConfig, which eventually calls os.Open
+      #4: internal/app/flags/logger.go:48:22: flags.LoggerFlags.NewZapLogger calls os.OpenFile
+      #5: internal/app/flags/bot.go:12:37: flags.BotFlags.NewBot calls os.Getenv, which eventually calls os.ReadDir
+      #6: internal/app/flags/bot.go:12:37: flags.BotFlags.NewBot calls os.Getenv, which eventually calls os.ReadFile
+      #7: internal/app/app.go:75:23: app.App.ParseConfig calls viper.Viper.ReadInConfig, which eventually calls os.Stat
+      #8: internal/app/flags/logger.go:48:22: flags.LoggerFlags.NewZapLogger calls os.OpenFile, which eventually calls syscall.Open
+
+Vulnerability #30: GO-2025-3563
+    Request smuggling due to acceptance of invalid chunked data in net/http
+  More info: https://pkg.go.dev/vuln/GO-2025-3563
+  Standard library
+    Found in: net/http/internal@go1.21.13
+    Fixed in: net/http/internal@go1.23.8
+    Example traces found:
+      #1: internal/app/app.go:75:23: app.App.ParseConfig calls viper.Viper.ReadInConfig, which eventually calls internal.chunkedReader.Read
+
+Vulnerability #31: GO-2025-3503
+    HTTP Proxy bypass using IPv6 Zone IDs in golang.org/x/net
+  More info: https://pkg.go.dev/vuln/GO-2025-3503
+  Standard library
+    Found in: net/http@go1.21.13
+    Fixed in: net/http@go1.23.7
+    Example traces found:
+      #1: internal/usecases/usecases_impl/BotService.go:16:25: usecases_impl.botServiceUseCaseImpl.Request calls telegram.BotAPI.Request, which eventually calls http.ProxyFromEnvironment
+
+Vulnerability #32: GO-2025-3447
+    Timing sidechannel for P-256 on ppc64le in crypto/internal/nistec
+  More info: https://pkg.go.dev/vuln/GO-2025-3447
+  Standard library
+    Found in: crypto/internal/nistec@go1.21.13
+    Fixed in: crypto/internal/nistec@go1.22.12
+    Platforms: ppc64le
+    Example traces found:
+      #1: internal/app/app.go:75:23: app.App.ParseConfig calls viper.Viper.ReadInConfig, which eventually calls nistec.P256Point.ScalarBaseMult
+      #2: internal/app/app.go:75:23: app.App.ParseConfig calls viper.Viper.ReadInConfig, which eventually calls nistec.P256Point.ScalarMult
+      #3: internal/app/flags/bot.go:12:37: flags.BotFlags.NewBot calls os.Getenv, which eventually calls nistec.P256Point.SetBytes
+
+Vulnerability #33: GO-2025-3420
+    Sensitive headers incorrectly sent after cross-domain redirect in net/http
+  More info: https://pkg.go.dev/vuln/GO-2025-3420
+  Standard library
+    Found in: net/http@go1.21.13
+    Fixed in: net/http@go1.22.11
+    Example traces found:
+      #1: internal/usecases/usecases_impl/BotService.go:16:25: usecases_impl.botServiceUseCaseImpl.Request calls telegram.BotAPI.Request, which eventually calls http.Client.Do
+
+Vulnerability #34: GO-2025-3373
+    Usage of IPv6 zone IDs can bypass URI name constraints in crypto/x509
+  More info: https://pkg.go.dev/vuln/GO-2025-3373
+  Standard library
+    Found in: crypto/x509@go1.21.13
+    Fixed in: crypto/x509@go1.22.11
+    Example traces found:
+      #1: internal/app/flags/bot.go:12:37: flags.BotFlags.NewBot calls os.Getenv, which eventually calls x509.CertPool.AppendCertsFromPEM
+      #2: internal/app/app.go:75:23: app.App.ParseConfig calls viper.Viper.ReadInConfig, which eventually calls x509.Certificate.Verify
+      #3: internal/app/app.go:75:23: app.App.ParseConfig calls viper.Viper.ReadInConfig, which eventually calls x509.Certificate.VerifyHostname
+      #4: internal/app/app.go:75:23: app.App.ParseConfig calls viper.Viper.ReadInConfig, which eventually calls x509.HostnameError.Error
+      #5: internal/app/flags/bot.go:12:37: flags.BotFlags.NewBot calls os.Getenv, which eventually calls x509.ParseCertificate
+
+=== Package Results ===
+
+Vulnerability #1: GO-2026-6091
+    Fix Javascript regexp context tracking in html/template
+  More info: https://pkg.go.dev/vuln/GO-2026-6091
+  Standard library
+    Found in: html/template@go1.21.13
+    Fixed in: html/template@go1.25.13
+
+Vulnerability #2: GO-2026-6089
+    Apply ReadHeaderTimeout when doing unencrypted HTTP/2 check in net/http
+  More info: https://pkg.go.dev/vuln/GO-2026-6089
+  Standard library
+    Found in: net/http@go1.21.13
+    Fixed in: net/http@go1.25.13
+
+Vulnerability #3: GO-2026-5970
+    Infinite loop on invalid input in golang.org/x/text
+  More info: https://pkg.go.dev/vuln/GO-2026-5970
+  Module: golang.org/x/text
+    Found in: golang.org/x/text@v0.14.0
+    Fixed in: golang.org/x/text@v0.39.0
+
+Vulnerability #4: GO-2026-5038
+    Quadratic complexity in WordDecoder.DecodeHeader in mime
+  More info: https://pkg.go.dev/vuln/GO-2026-5038
+  Standard library
+    Found in: mime@go1.21.13
+    Fixed in: mime@go1.25.11
+
+Vulnerability #5: GO-2026-4982
+    Bypass of meta content URL escaping causes XSS in html/template
+  More info: https://pkg.go.dev/vuln/GO-2026-4982
+  Standard library
+    Found in: html/template@go1.21.13
+    Fixed in: html/template@go1.25.10
+
+Vulnerability #6: GO-2026-4981
+    Crash when handling long CNAME response in net
+  More info: https://pkg.go.dev/vuln/GO-2026-4981
+  Standard library
+    Found in: net@go1.21.13
+    Fixed in: net@go1.25.10
+
+Vulnerability #7: GO-2026-4980
+    Escaper bypass leads to XSS in html/template
+  More info: https://pkg.go.dev/vuln/GO-2026-4980
+  Standard library
+    Found in: html/template@go1.21.13
+    Fixed in: html/template@go1.25.10
+
+Vulnerability #8: GO-2026-4970
+    Root escape via symlink plus trailing slash in os
+  More info: https://pkg.go.dev/vuln/GO-2026-4970
+  Standard library
+    Found in: os@go1.21.13
+    Fixed in: os@go1.25.12
+
+Vulnerability #9: GO-2026-4865
+    JsBraceDepth Context Tracking Bugs (XSS) in html/template
+  More info: https://pkg.go.dev/vuln/GO-2026-4865
+  Standard library
+    Found in: html/template@go1.21.13
+    Fixed in: html/template@go1.25.9
+
+Vulnerability #10: GO-2026-4864
+    TOCTOU permits root escape on Linux via Root.Chmod in os in
+    internal/syscall/unix
+  More info: https://pkg.go.dev/vuln/GO-2026-4864
+  Standard library
+    Found in: internal/syscall/unix@go1.21.13
+    Fixed in: internal/syscall/unix@go1.25.9
+    Platforms: linux
+
+Vulnerability #11: GO-2026-4603
+    URLs in meta content attribute actions are not escaped in html/template
+  More info: https://pkg.go.dev/vuln/GO-2026-4603
+  Standard library
+    Found in: html/template@go1.21.13
+    Fixed in: html/template@go1.25.8
+
+Vulnerability #12: GO-2026-4403
+    Improper access to parent directory of root in os
+  More info: https://pkg.go.dev/vuln/GO-2026-4403
+  Standard library
+    Found in: os@go1.21.13
+    Fixed in: os@go1.23.9
+
+Vulnerability #13: GO-2025-4015
+    Excessive CPU consumption in Reader.ReadResponse in net/textproto
+  More info: https://pkg.go.dev/vuln/GO-2025-4015
+  Standard library
+    Found in: net/textproto@go1.21.13
+    Fixed in: net/textproto@go1.24.8
+
+=== Module Results ===
+
+Vulnerability #1: GO-2026-6088
+    Add recursion depth guard during decode in encoding/xml
+  More info: https://pkg.go.dev/vuln/GO-2026-6088
+  Standard library
+    Found in: stdlib@go1.21.13
+    Fixed in: stdlib@go1.25.13
+
+Vulnerability #2: GO-2026-5024
+    Invoking integer overflow in NewNTUnicodeString in golang.org/x/sys/windows
+  More info: https://pkg.go.dev/vuln/GO-2026-5024
+  Module: golang.org/x/sys
+    Found in: golang.org/x/sys@v0.15.0
+    Fixed in: golang.org/x/sys@v0.44.0
+    Platforms: windows
+
+Vulnerability #3: GO-2026-4986
+    Quadratic string concatentation in consumeComment in net/mail
+  More info: https://pkg.go.dev/vuln/GO-2026-4986
+  Standard library
+    Found in: stdlib@go1.21.13
+    Fixed in: stdlib@go1.25.10
+
+Vulnerability #4: GO-2026-4977
+    Quadratic string concatenation in consumePhrase in net/mail
+  More info: https://pkg.go.dev/vuln/GO-2026-4977
+  Standard library
+    Found in: stdlib@go1.21.13
+    Fixed in: stdlib@go1.25.10
+
+Vulnerability #5: GO-2026-4976
+    ReverseProxy forwards queries with more than urlmaxqueryparams parameters in
+    net/http/httputil
+  More info: https://pkg.go.dev/vuln/GO-2026-4976
+  Standard library
+    Found in: stdlib@go1.21.13
+    Fixed in: stdlib@go1.25.10
+
+Vulnerability #6: GO-2026-4869
+    Unbounded allocation for old GNU sparse in archive/tar
+  More info: https://pkg.go.dev/vuln/GO-2026-4869
+  Standard library
+    Found in: stdlib@go1.21.13
+    Fixed in: stdlib@go1.25.9
+
+Vulnerability #7: GO-2026-4342
+    Excessive CPU consumption when building archive index in archive/zip
+  More info: https://pkg.go.dev/vuln/GO-2026-4342
+  Standard library
+    Found in: stdlib@go1.21.13
+    Fixed in: stdlib@go1.24.12
+
+Vulnerability #8: GO-2025-4014
+    Unbounded allocation when parsing GNU sparse map in archive/tar
+  More info: https://pkg.go.dev/vuln/GO-2025-4014
+  Standard library
+    Found in: stdlib@go1.21.13
+    Fixed in: stdlib@go1.24.8
+
+Vulnerability #9: GO-2025-4006
+    Excessive CPU consumption in ParseAddress in net/mail
+  More info: https://pkg.go.dev/vuln/GO-2025-4006
+  Standard library
+    Found in: stdlib@go1.21.13
+    Fixed in: stdlib@go1.24.8
+
+Vulnerability #10: GO-2025-3956
+    Unexpected paths returned from LookPath in os/exec
+  More info: https://pkg.go.dev/vuln/GO-2025-3956
+  Standard library
+    Found in: stdlib@go1.21.13
+    Fixed in: stdlib@go1.23.12
+
+Vulnerability #11: GO-2024-3107
+    Stack exhaustion in Parse in go/build/constraint
+  More info: https://pkg.go.dev/vuln/GO-2024-3107
+  Standard library
+    Found in: stdlib@go1.21.13
+    Fixed in: stdlib@go1.22.7
+
+Vulnerability #12: GO-2024-3106
+    Stack exhaustion in Decoder.Decode in encoding/gob
+  More info: https://pkg.go.dev/vuln/GO-2024-3106
+  Standard library
+    Found in: stdlib@go1.21.13
+    Fixed in: stdlib@go1.22.7
+
+Vulnerability #13: GO-2024-3105
+    Stack exhaustion in all Parse functions in go/parser
+  More info: https://pkg.go.dev/vuln/GO-2024-3105
+  Standard library
+    Found in: stdlib@go1.21.13
+    Fixed in: stdlib@go1.22.7
+
+Your code is affected by 34 vulnerabilities from the Go standard library.
+This scan also found 13 vulnerabilities in packages you import and 13
+vulnerabilities in modules you require, but your code doesn't appear to call
+these vulnerabilities.
+govuln-exit 3

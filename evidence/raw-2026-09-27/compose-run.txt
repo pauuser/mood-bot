@@ -1,0 +1,31 @@
+$ TELEGRAM_BOT_TOKEN=123456:FAKE docker compose up --build
+#19 CACHED
+
+#20 [mood-bot] exporting to image
+#20 exporting layers done
+#20 exporting manifest sha256:29d818a3895b7f510bd109797413d236fed34e8daf40ca088e8f1f1c49b519e7 done
+#20 exporting config sha256:5962bf6926cf463189bb7f09ae195d6752fe5860c97a490f7f72fbcacf8fc35e done
+#20 exporting attestation manifest sha256:a457042a2bb4af3ae2fcb9dd2363fb1f2d8058ca549b33346554afeb99fb0306 done
+#20 exporting manifest list sha256:65ba7973572d1fd2b82710e87f3f29cd0f6b8a605999f123f32f9e058a9d4e92 done
+#20 naming to docker.io/library/mood-bot-mood-bot:latest done
+#20 unpacking to docker.io/library/mood-bot-mood-bot:latest done
+#20 DONE 0.0s
+
+#21 [mood-bot] resolving provenance for metadata file
+ Service mood-bot  Built
+#21 DONE 0.0s
+ Network mood-bot_moodbot-network  Creating
+ Network mood-bot_moodbot-network  Created
+ Container mood-bot  Creating
+ Container mood-bot  Created
+Attaching to mood-bot
+mood-bot  | path to config = ./config config file name = config.json
+[Kmood-bot exited with code 1
+Aborting on container exit...
+ Container mood-bot  Stopping
+ Container mood-bot  Stopped
+
+$ cat logs/moodbot.log
+{"level":"fatal","timestamp":"2026-09-27T13:46:12Z","caller":"app/app.go:91","msg":"Cannot init telegram bot","stacktrace":"pauuser/mood-bot/internal/app.(*App).Init\n\t/app/internal/app/app.go:91\npauuser/mood-bot/internal/app.(*App).Run\n\t/app/internal/app/app.go:122\nmain.main\n\t/app/cmd/MoodBot/main.go:23\nruntime.main\n\t/usr/local/go/src/runtime/proc.go:267"}
+
+image=sha256:65ba7973572d1fd2b82710e87f3f29cd0f6b8a605999f123f32f9e058a9d4e92 user=appuser

@@ -1,0 +1,5 @@
+$ docker run --rm --mount type=tmpfs,destination=/app/data mood-bot-mood-bot sh -c "<команда из docker-compose.yml>"
+uid=999(appuser) gid=999(appuser) groups=999(appuser)
+drwxr-xr-x 2 root root 40 Sep 27 13:46 /app/data
+chown: changing ownership of '/app/data': Operation not permitted
+exit=1
